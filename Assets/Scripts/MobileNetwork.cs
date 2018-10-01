@@ -2,18 +2,27 @@ using UnityEngine;
 
 public class MobileNetwork : Photon.PunBehaviour {
 
-    void OnGUI() {
+    void OnGUI()
+    {
         GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
     }
 
-    // TODO-2.a: the same as 1.b
-    //   and join a room
 
+    private void Start()
+    {
+        PhotonNetwork.ConnectUsingSettings("0.1");
+    }
 
-    //public override void OnJoinedRoom()
-    //{
-    //    GetComponent<MobileShooter>().Activate();
-    //}
+    public override void OnJoinedLobby()
+    {
+        PhotonNetwork.JoinRoom("testing");
+    }
+
+    public override void OnJoinedRoom()
+    {
+        //PhotonNetwork.Instantiate("PhoneCube", new Vector3(0, 0, 0), Quaternion.identity, 0);
+        GetComponent<MobileShooter>().Activate();
+    }
 
 
 }

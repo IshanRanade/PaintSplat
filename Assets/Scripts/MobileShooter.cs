@@ -55,21 +55,22 @@ public class MobileShooter : MonoBehaviour {
 
         // TODO-3.1.b
         // The following method for detecting finger swipes has been implemented for you. You can just uncomment. 
-        //if (Input.GetMouseButtonUp(0))
-        //{
-        //    if (!bMouseDown || mousedowned_time <= 0.05f) return;
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (!bMouseDown || mousedowned_time <= 0.05f) return;
 
-        //    Vector3 mouseup_pos = Input.mousePosition;
-        //    Vector3 delta = (mouseup_pos - mousedown_pos) / Screen.height;
-        //    Vector3 swipe_vel = delta / mousedowned_time;
+            Vector3 mouseup_pos = Input.mousePosition;
+            Vector3 delta = (mouseup_pos - mousedown_pos) / Screen.height;
+            Vector3 swipe_vel = delta / mousedowned_time;
 
-        //    if (swipe_vel.y > swipespeed_min) {
-        //        ShootBallUp();
-        //    }
+            if (swipe_vel.y > swipespeed_min)
+            {
+                ShootBallUp();
+            }
 
-        //    bMouseDown = false;
-        //    mousedowned_time = 0;
-        //}
+            bMouseDown = false;
+            mousedowned_time = 0;
+        }
     }
 
     public void ShootBall(Vector3 velocity)
@@ -86,6 +87,10 @@ public class MobileShooter : MonoBehaviour {
         //   of the ball across all clients (PhotonTargets.All) and transfer 
         //   the ownership of the ball to PC so the ball is correctly destroyed
         //   upon hitting a wall.
+        GameObject ball = PhotonNetwork.Instantiate("ball", transform.position, transform.rotation, 0);
+        PhotonView photonView = PhotonView.Get(ball);
+        photonView.RPC("RPCInitialize", PhotonTargets.All, velocity, color_v);
+        
     }
 
 

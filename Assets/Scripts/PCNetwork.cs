@@ -2,34 +2,45 @@
 using System.Collections;
 
 public class PCNetwork : Photon.PunBehaviour {
-    // This is for Paint Ball networking at PC
-    // if you are looking for LOOK-1.b, please refer to PCNetwork_Cube.cs 
     string roomName;
 
-    void Start() {
+    // LOOK-1.b: creating a room on PC
+    void Start()
+    {
+        // Make sure "Auto-Join Lobby" was checked at 
+        //   Assets-> Photon Unity Networking-> PhotonServerSettings
+        //   so the application will automatically connect to Lobby
+        //   and call OnJoinedLobby()
         PhotonNetwork.ConnectUsingSettings("0.1");
         roomName = GenerateRoomName();
-
+    }
+    static string GenerateRoomName()
+    {
+        return "testing";
     }
 
-    void OnGUI() {
-        GUI.contentColor = Color.red;
-        GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString() + " Room Name: " + roomName);
+    void OnGUI()
+    {
+        GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
+        GUILayout.Label("Room Name: " + roomName);
     }
 
-    public override void OnJoinedLobby() {
+    public override void OnJoinedLobby()
+    {
+        //PhotonNetwork.CreateRoom(null);
+        Debug.Log("done");
         PhotonNetwork.CreateRoom(roomName);
     }
 
-    public override void OnPhotonJoinRoomFailed(object[] codeAndMsg) {
+    // Look-1.b: We are not doing anything in the functions below
+    // , but you may want to do something at the corresponding mobile function
+    // On mobile client, use OnJoinedRoom() instead of OnCreatedRoom()
+    public override void OnPhotonJoinRoomFailed(object[] codeAndMsg)
+    {
         base.OnPhotonJoinRoomFailed(codeAndMsg);
     }
-
-    public override void OnCreatedRoom() {
+    public override void OnCreatedRoom()
+    {
         base.OnCreatedRoom();
-    }
-
-    static string GenerateRoomName() {
-        return "testing";
     }
 }
