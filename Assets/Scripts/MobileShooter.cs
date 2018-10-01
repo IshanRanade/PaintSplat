@@ -16,6 +16,10 @@ public class MobileShooter : MonoBehaviour {
 
     bool bMouseDown = false;
     float ballSpeedFixed = 25f;
+    float maxSwipeVelocity = 100.0f;
+    float minSwipeVelocity = 10.0f;
+    float maxSwipePower = 10.0f;
+    float minSwipePower = 1.0f;
 
     // Use this for initialization
     void Start()
@@ -66,7 +70,7 @@ public class MobileShooter : MonoBehaviour {
 
             if (swipe_vel.y > swipespeed_min)
             {
-                ShootBallUp();
+                ShootBallUp(swipe_vel.y);
             }
 
             bMouseDown = false;
@@ -101,7 +105,11 @@ public class MobileShooter : MonoBehaviour {
         ShootBall(ballSpeedFixed * targetBehavior.GetPhoneForward());
     }
 
-    public void ShootBallUp() {
-        ShootBall(ballSpeedFixed * targetBehavior.GetPhoneUp());
+    public void ShootBallUp(float swipePower) {
+        swipePower = Mathf.Max(minSwipePower, Mathf.Min(maxSwipePower, swipePower));
+        float t = (swipePower - minSwipePower) / (maxSwipePower - minSwipePower);
+        float speed = minSwipeVelocity * (1 - t) + maxSwipeVelocity * t;
+
+        ShootBall(speed * -targetBehavior.GetPhoneUp());
     }
 }
