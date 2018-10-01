@@ -20,7 +20,6 @@ public class MobileNetwork : Photon.PunBehaviour {
 
     public override void OnJoinedRoom()
     {
-        //PhotonNetwork.Instantiate("PhoneCube", new Vector3(0, 0, 0), Quaternion.identity, 0);
         GetComponent<MobileShooter>().Activate();
     }
 
